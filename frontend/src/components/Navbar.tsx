@@ -7,8 +7,14 @@ export default function Navbar() {
 
     return (
         <nav className="bg-white shadow-lg p-0 m-0">
-            <div className="flex justify-between items-center py-4 px-3">
-                <div className="text-xl font-bold">Chriserino.com</div>
+            <div className="relative flex items-center justify-center py-4 px-3">
+                {/* <div className="absolute left-3 text-xl font-bold">Chriserino.com</div> */}
+                <div className="absolute left-3">
+                    <img
+                        src="/c-logo32.png"
+                        alt="Chriserino.com"
+                    />
+                </div>
                 <div className="flex space-x-4">
                     {routes
                         .filter(route => route.label) // Only show routes with labels

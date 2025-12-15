@@ -15,6 +15,7 @@ export type AppRoute = {
     element: React.ReactElement;
     label?: string;
     protected?: boolean;
+    showNavbar: boolean;
 }
 
 export const routes: AppRoute[] = [
@@ -22,12 +23,14 @@ export const routes: AppRoute[] = [
         path: ROUTE_PATHS.HOME,
         element: React.createElement(Home),
         label: 'Home',
-        protected: false
+        protected: false,
+        showNavbar: true
     },
     {
         path: ROUTE_PATHS.PORTFOLIO,
         element: React.createElement(Portfolio),
         label: 'Portfolio',
-        protected: false
+        protected: false,
+        showNavbar: false
     },
 ];
