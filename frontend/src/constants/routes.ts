@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteObject } from 'react-router-dom';
+import { RouteObject, Navigate } from 'react-router-dom';
 import Home from '../components/pages/Home';
 import Portfolio from '../components/pages/Portfolio';
 
@@ -19,9 +19,16 @@ export type AppRoute = {
 }
 
 export const routes: AppRoute[] = [
+    // {
+    //     path: ROUTE_PATHS.HOME,
+    //     element: React.createElement(Home),
+    //     label: 'Home',
+    //     protected: false,
+    //     showNavbar: true
+    // },
     {
         path: ROUTE_PATHS.HOME,
-        element: React.createElement(Home),
+        element: React.createElement(Navigate, { to: ROUTE_PATHS.PORTFOLIO, replace: true }),
         label: 'Home',
         protected: false,
         showNavbar: true
