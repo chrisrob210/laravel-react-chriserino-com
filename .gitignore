@@ -12,7 +12,7 @@ backend/bootstrap/cache/*
 backend/.phpunit.result.cache
 backend/public/hot
 backend/public/storage
-backend/public/build
+# backend/public/build
 
 # React Frontend
 frontend/node_modules/
