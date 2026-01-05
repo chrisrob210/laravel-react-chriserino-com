@@ -65,7 +65,7 @@ export const repos = [
             }
         ],
         description: 'Guess the correct answer and the AI loses HP, guess wrong and YOU lose HP. Defeat the AI and win.',
-        href: '/trivia-battle-arena',
+        href: '/projects/trivia-battle-arena',
         image: '/images/repos/trivia-battle.png',
         github: 'https://github.com/chrisrob210/trivia-battle-arena'
 
