@@ -1,3 +1,5 @@
+import { ROUTE_PATHS } from "./routes"
+
 export const repos = [
     {
         title: 'Map By Schema Prototype',
@@ -47,7 +49,7 @@ export const repos = [
             }
         ],
         description: 'Use a camera to scan a barcode and get Suggested and Average Pricing.',
-        href: '/projects/barcode-scanner',
+        href: ROUTE_PATHS.PROJECT_BARCODE_SCANNER,
         image: '/images/repos/ebay-barcode-app.png',
         github: 'https://github.com/chrisrob210/ebay-barcode-search'
     },
@@ -65,7 +67,7 @@ export const repos = [
             }
         ],
         description: 'Guess the correct answer and the AI loses HP, guess wrong and YOU lose HP. Defeat the AI and win.',
-        href: '/projects/trivia-battle-arena',
+        href: ROUTE_PATHS.PROJECT_TRIVIA_BATTLE,
         image: '/images/repos/trivia-battle.png',
         github: 'https://github.com/chrisrob210/trivia-battle-arena'
 
