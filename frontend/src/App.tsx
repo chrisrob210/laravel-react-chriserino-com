@@ -15,7 +15,7 @@ function App() {
   return (
     // <div className='min-h-screen bg-gradient-to-b from-slate-200 via-slate-300 to-slate-400  text-slate-800'>
     <div className='min-h-screen bg-gradient-to-b from-slate-100 via-slate-200 to-slate-300  text-slate-800'>
-      {/* {showNavbar && <Navbar />} */}
+      {showNavbar && <Navbar />}
       <Routes>
         {routes.map((route: AppRoute) => (
           <Route

@@ -34,8 +34,8 @@ export const repos = [
         category: 'E-Commerce Tool',
         technologies: [
             {
-                title: 'Next.js',
-                href: 'https://nextjs.org/'
+                title: 'React',
+                href: 'https://react.dev/reference/react'
             },
             {
                 title: 'Ebay API',
@@ -47,7 +47,7 @@ export const repos = [
             }
         ],
         description: 'Use a camera to scan a barcode and get Suggested and Average Pricing.',
-        href: '/ebay-barcode',
+        href: '/projects/barcode-scanner',
         image: '/images/repos/ebay-barcode-app.png',
         github: 'https://github.com/chrisrob210/ebay-barcode-search'
     },
@@ -56,8 +56,8 @@ export const repos = [
         category: 'Game',
         technologies: [
             {
-                title: 'Next.js',
-                href: 'https://nextjs.org/'
+                title: 'React',
+                href: 'https://react.dev/reference/react'
             },
             {
                 title: 'Open Trivia Db API',
