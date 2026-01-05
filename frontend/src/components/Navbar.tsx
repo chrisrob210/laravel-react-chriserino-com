@@ -18,6 +18,7 @@ export default function Navbar() {
                 <div className="flex space-x-4">
                     {routes
                         .filter(route => route.label) // Only show routes with labels
+                        .filter(route => route.showInNavbar === true)
                         .map(route => (
                             <Link
                                 key={route.path}

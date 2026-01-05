@@ -42,12 +42,13 @@ export default function RepoCard({ repo, repoIndex }: RepoCardProps) {
             {/* Title + Tech */}
             <div>
                 {/* Title + Category*/}
-                <div className="text-lg font-bold text-center whitespace-nowrap sm:mb-0 md:mb-1">{repo.title} - (<span className="text-base font-semibold italic">{repo.category}</span>)</div>
-
+                <div className="flex justify-center">
+                    <div className="text-lg font-bold text-center whitespace-nowrap mr-1 sm:mb-0 md:mb-1">{repo.title}</div> <div className="text-lg font-bold text-center whitespace-nowrap sm:mb-0 md:mb-1">(<span className="text-base font-semibold italic">{repo.category}</span>)</div>
+                </div>
                 {/* Technologies */}
                 <div className="text-sm font-semibold flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-center text-center">
-                    <span className="text-center sm:text-left">Tech:</span>
-                    <ul className="flex flex-wrap justify-center gap-2 sm:justify-start">
+                    {/* <span className="text-left sm:text-left">Tech:</span> */}
+                    <ul className="flex flex-wrap sm:justify-start md:justify-center gap-2 ">
                         {repo?.technologies?.map((tech: any, techIndex: number) => (
                             <li key={`repo-tech-${repoIndex}-${techIndex}`}>
                                 <Link

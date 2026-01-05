@@ -1,0 +1,6 @@
+/**
+ * Public exports for the barcode feature module.
+ * This acts like an internal package interface for the rest of the app.
+ * Use this to avoid reaching into specific file paths.
+ */
+export { default as TriviaBattlePage } from './page';
