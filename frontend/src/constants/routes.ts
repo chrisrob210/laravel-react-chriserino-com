@@ -3,8 +3,8 @@ import { Navigate } from 'react-router-dom';
 import Home from '../components/pages/Home';
 import Portfolio from '../components/pages/Portfolio';
 import Projects from '../components/pages/Projects';
-import BarcodeScan from '../components/pages/projects/BarcodeScan'
-import TriviaBattleArena from '../components/pages/projects/TriviaBattleArena';
+import BarcodePage from '../components/projects/barcode/BarcodePage';
+import TriviaBattleArena from '../components/projects/tba/TriviaBattleArena';
 
 // Route path constants
 export const ROUTE_PATHS = {
@@ -49,6 +49,9 @@ export const routes: AppRoute[] = [
         showNavbar: false,
         showInNavbar: true
     },
+
+
+    // PROJECTS
     {
         path: ROUTE_PATHS.PROJECTS,
         element: React.createElement(Projects),
@@ -59,7 +62,7 @@ export const routes: AppRoute[] = [
     },
     {
         path: ROUTE_PATHS.PROJECT_BARCODE_SCANNER,
-        element: React.createElement(BarcodeScan),
+        element: React.createElement(BarcodePage),
         label: 'Barcode Scanner',
         protected: false,
         showNavbar: true,

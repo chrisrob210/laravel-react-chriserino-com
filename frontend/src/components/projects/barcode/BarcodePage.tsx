@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { BarcodeScanner } from '../../projects/barcode';
+import { BarcodeScanner } from '.';
 
-export default function BarcodeScan() {
+export default function BarcodePage() {
     const [code, setCode] = useState<string | null>(null);
     const [products, setProducts] = useState<any>(null);
     const [loading, setLoading] = useState(false);
