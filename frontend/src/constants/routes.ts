@@ -1,20 +1,11 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { ROUTE_PATHS } from './routePaths';
 import Home from '../components/pages/Home';
 import Portfolio from '../components/pages/Portfolio';
 import Projects from '../components/pages/Projects';
 import BarcodePage from '../components/projects/barcode/BarcodePage';
 import TriviaBattleArena from '../components/projects/tba/TriviaBattleArena';
-
-// Route path constants
-export const ROUTE_PATHS = {
-    HOME: '/',
-    PORTFOLIO: '/portfolio',
-    PROJECTS: '/projects',
-    PROJECT_BARCODE_SCANNER: '/projects/barcode-scanner',
-    PROJECT_TRIVIA_BATTLE: '/projects/trivia-battle-arena',
-} as const;
-
 
 export type AppRoute = {
     path: string;

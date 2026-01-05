@@ -1,4 +1,4 @@
-import { ROUTE_PATHS } from "./routes"
+import { ROUTE_PATHS } from "./routePaths"
 
 export const repos = [
     {
