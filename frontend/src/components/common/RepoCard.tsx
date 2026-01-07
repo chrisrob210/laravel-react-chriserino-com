@@ -1,7 +1,7 @@
 // import Link from "next/link"
 // import Image from "next/image"
 import { Link } from "react-router-dom";
-import { RepoCardProps, RepoProps } from "../lib/definitions"
+import { RepoCardProps, RepoProps } from "../../lib/definitions"
 
 // export default function RepoCard({ repo, repoIndex }: RepoCardProps) {
 //     return (

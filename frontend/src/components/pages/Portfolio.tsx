@@ -1,6 +1,6 @@
 import React from 'react'
 import ExperienceCard from '../ExperienceCard'
-import RepoCard from '../RepoCard'
+import RepoCard from '../common/RepoCard'
 import { Experience } from '../../lib/definitions'
 import { experience } from '../../constants/experience'
 import { repos } from '../../constants/repos'
