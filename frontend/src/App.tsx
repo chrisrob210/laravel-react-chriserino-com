@@ -4,7 +4,7 @@ import axios from 'axios';
 import logo from './logo.svg';
 import { routes } from './constants/routes';
 import { AppRoute } from './constants/routes';
-import Navbar from './components/Navbar';
+import Navbar from './components/common/Navbar';
 // import './App.css';
 
 function App() {
