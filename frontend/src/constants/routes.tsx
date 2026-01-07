@@ -7,7 +7,9 @@ import Portfolio from '../components/pages/Portfolio';
 import Projects from '../components/pages/Projects';
 import BarcodePage from '../components/projects/barcode/BarcodePage';
 import TriviaBattleArena from '../components/projects/tba/TriviaBattleArena';
-import EditProjects from '../components/pages/admin/EditProjects';
+import AddProjects from '../components/pages/admin/AddProjects';
+import AdminDashboard from '../components/pages/admin/AdminDashboard';
+import ViewProjects from '../components/pages/admin/ViewProjects';
 
 export type AppRoute = {
     path: string;
@@ -64,15 +66,39 @@ export const routes: AppRoute[] = [
 
     // ADMIN
     {
-        path: ROUTE_PATHS.ADMIN_EDIT_PROJECTS,
+        path: ROUTE_PATHS.ADMIN_DASHBOARD,
         element: (
             <ProtectedRoute requireAdmin={true} >
-                <EditProjects />
+                <AdminDashboard />
             </ProtectedRoute>
         ),
-        label: 'Edit Projects',
+        label: 'Admin Dashboard',
         protected: true,
         showNavbar: true,
-        showInNavbar: true
+        showInNavbar: true,
+    },
+    {
+        path: ROUTE_PATHS.ADMIN_PROJECTS_VIEW,
+        element: (
+            <ProtectedRoute requireAdmin={true} >
+                <ViewProjects />
+            </ProtectedRoute>
+        ),
+        label: 'View Projects',
+        protected: true,
+        showNavbar: true,
+        showInNavbar: false
+    },
+    {
+        path: ROUTE_PATHS.ADMIN_PROJECTS_ADD,
+        element: (
+            <ProtectedRoute requireAdmin={true} >
+                <AddProjects />
+            </ProtectedRoute>
+        ),
+        label: 'Add Project',
+        protected: true,
+        showNavbar: true,
+        showInNavbar: false
     }
 ];
