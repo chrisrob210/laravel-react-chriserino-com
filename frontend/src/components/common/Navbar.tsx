@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { routes } from '../constants/routes'
+import { routes } from '../../constants/routes'
 import { useUser, SignInButton, UserButton } from '@clerk/clerk-react'
-import { useAdmin } from '../hooks/useAdmin'
+import { useAdmin } from '../../hooks/useAdmin'
 
 export default function Navbar() {
     const location = useLocation();
@@ -31,7 +31,7 @@ export default function Navbar() {
                                 key={route.path}
                                 to={route.path}
                                 className={`px-3 py-2 rounded ${location.pathname === route.path
-                                    ? 'bg-blue-500 text-white'
+                                    ? 'bg-red-600 text-white'
                                     : 'text-gray-700 hover:bg-gray-100'
                                     }`}
                             >
@@ -41,7 +41,7 @@ export default function Navbar() {
                 </div>
                 <div className='pr-3 flex justify-center items-center'>
                     {isAdmin && (
-                        <span className="text-[0.5rem] bg-red-500 text-white px-1 py-[0.1rem] mr-1 rounded">
+                        <span className="text-[0.5rem] bg-red-600 text-white px-1 py-[0.1rem] mr-1 rounded">
                             Admin
                         </span>
                     )}
