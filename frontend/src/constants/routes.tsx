@@ -1,11 +1,13 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { ROUTE_PATHS } from './routePaths';
+import ProtectedRoute from '../components/ProtectedRoute';
 import Home from '../components/pages/Home';
 import Portfolio from '../components/pages/Portfolio';
 import Projects from '../components/pages/Projects';
 import BarcodePage from '../components/projects/barcode/BarcodePage';
 import TriviaBattleArena from '../components/projects/tba/TriviaBattleArena';
+import EditProjects from '../components/pages/admin/EditProjects';
 
 export type AppRoute = {
     path: string;
@@ -17,16 +19,9 @@ export type AppRoute = {
 }
 
 export const routes: AppRoute[] = [
-    // {
-    //     path: ROUTE_PATHS.HOME,
-    //     element: React.createElement(Home),
-    //     label: 'Home',
-    //     protected: false,
-    //     showNavbar: true
-    // },
     {
         path: ROUTE_PATHS.HOME,
-        element: React.createElement(Navigate, { to: ROUTE_PATHS.PORTFOLIO, replace: true }),
+        element: <Navigate to={ROUTE_PATHS.PORTFOLIO} replace />,
         label: 'Home',
         protected: false,
         showNavbar: true,
@@ -34,18 +29,17 @@ export const routes: AppRoute[] = [
     },
     {
         path: ROUTE_PATHS.PORTFOLIO,
-        element: React.createElement(Portfolio),
+        element: <Portfolio />,
         label: 'Portfolio',
         protected: false,
         showNavbar: false,
         showInNavbar: true
     },
 
-
     // PROJECTS
     {
         path: ROUTE_PATHS.PROJECTS,
-        element: React.createElement(Projects),
+        element: <Projects />,
         label: 'Projects',
         protected: false,
         showNavbar: true,
@@ -53,7 +47,7 @@ export const routes: AppRoute[] = [
     },
     {
         path: ROUTE_PATHS.PROJECT_BARCODE_SCANNER,
-        element: React.createElement(BarcodePage),
+        element: <BarcodePage />,
         label: 'Barcode Scanner',
         protected: false,
         showNavbar: true,
@@ -61,12 +55,24 @@ export const routes: AppRoute[] = [
     },
     {
         path: ROUTE_PATHS.PROJECT_TRIVIA_BATTLE,
-        element: React.createElement(TriviaBattleArena),
+        element: <TriviaBattleArena />,
         label: 'Trivia Battle',
         protected: false,
         showNavbar: true,
         showInNavbar: false
+    },
+
+    // ADMIN
+    {
+        path: ROUTE_PATHS.ADMIN_EDIT_PROJECTS,
+        element: (
+            <ProtectedRoute requireAdmin={true} >
+                <EditProjects />
+            </ProtectedRoute>
+        ),
+        label: 'Edit Projects',
+        protected: true,
+        showNavbar: true,
+        showInNavbar: true
     }
-
-
 ];
