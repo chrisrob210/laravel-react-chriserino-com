@@ -6,15 +6,15 @@ import { ROUTE_PATHS } from '../../../constants/routePaths'
 export default function AdminDashboard() {
     return (
         <FlexColContainer>
-            <Card title={'Projects'}>
+            <Card>
                 <div className="flex space-x-5">
                     <Card>
-                        <div>View Projects</div>
-                        <Link className='bg-red-600 text-white px-2 py-0.5 rounded-lg hover:bg-red-500' to={ROUTE_PATHS.ADMIN_PROJECTS_VIEW}>View</Link>
+                        <div>Project Management</div>
+                        <Link className='bg-red-600 text-white px-2 py-0.5 rounded-lg hover:bg-red-500' to={ROUTE_PATHS.ADMIN_PROJECT_MANAGEMENT}>Manage</Link>
                     </Card>
                     <Card>
-                        <div>Add Project</div>
-                        <Link className='bg-red-600 text-white px-2 py-0.5 rounded-lg hover:bg-red-500' to={ROUTE_PATHS.ADMIN_PROJECTS_ADD}>Add</Link>
+                        <div>Portfolio Management</div>
+                        <Link className='bg-red-600 text-white px-2 py-0.5 rounded-lg hover:bg-red-500' to={ROUTE_PATHS.ADMIN_PORTFOLIO_MANAGEMENT}>Manage</Link>
                     </Card>
                 </div>
             </Card>
