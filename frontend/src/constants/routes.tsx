@@ -27,7 +27,7 @@ export const routes: AppRoute[] = [
         label: 'Home',
         protected: false,
         showNavbar: true,
-        showInNavbar: true
+        showInNavbar: false
     },
     {
         path: ROUTE_PATHS.PORTFOLIO,
@@ -45,7 +45,7 @@ export const routes: AppRoute[] = [
         label: 'Projects',
         protected: false,
         showNavbar: true,
-        showInNavbar: true,
+        showInNavbar: false,
     },
     {
         path: ROUTE_PATHS.PROJECT_BARCODE_SCANNER,
