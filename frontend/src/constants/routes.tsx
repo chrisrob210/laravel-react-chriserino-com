@@ -7,9 +7,9 @@ import Portfolio from '../components/pages/Portfolio';
 import Projects from '../components/pages/Projects';
 import BarcodePage from '../components/projects/barcode/BarcodePage';
 import TriviaBattleArena from '../components/projects/tba/TriviaBattleArena';
-import AddProjects from '../components/pages/admin/AddProjects';
+import AdminProjectManagement from '../components/pages/admin/AdminProjectManagement';
 import AdminDashboard from '../components/pages/admin/AdminDashboard';
-import ViewProjects from '../components/pages/admin/ViewProjects';
+import AdminPortfolioManagement from '../components/pages/admin/AdminPortfolioManagement';
 
 export type AppRoute = {
     path: string;
@@ -78,22 +78,22 @@ export const routes: AppRoute[] = [
         showInNavbar: true,
     },
     {
-        path: ROUTE_PATHS.ADMIN_PROJECTS_VIEW,
+        path: ROUTE_PATHS.ADMIN_PROJECT_MANAGEMENT,
         element: (
             <ProtectedRoute requireAdmin={true} >
-                <ViewProjects />
+                <AdminProjectManagement />
             </ProtectedRoute>
         ),
-        label: 'View Projects',
+        label: 'Add Project',
         protected: true,
         showNavbar: true,
         showInNavbar: false
     },
     {
-        path: ROUTE_PATHS.ADMIN_PROJECTS_ADD,
+        path: ROUTE_PATHS.ADMIN_PORTFOLIO_MANAGEMENT,
         element: (
             <ProtectedRoute requireAdmin={true} >
-                <AddProjects />
+                <AdminPortfolioManagement />
             </ProtectedRoute>
         ),
         label: 'Add Project',
