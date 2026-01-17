@@ -2,11 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProjectController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::post('/auth/clerk-login', [AuthController::class, 'clerkLogin']);
 
 // Project routes with authentication
 Route::middleware('auth:sanctum')->group(function () {
