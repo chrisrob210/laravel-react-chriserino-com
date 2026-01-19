@@ -23,7 +23,17 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        $project = Project::create($request->validated());
+        $validated = $request->validated();
+        $technologies = $validated['technologies'] ?? [];
+        unset($validated['technologies']);
+        
+        $project = Project::create($validated);
+        
+        if (!empty($technologies)) {
+            $project->technologies()->attach($technologies);
+        }
+        
+        $project->load('technologies');
         return response()->json($project, 201);
     }
 
@@ -52,7 +62,24 @@ class ProjectController extends Controller
             return response()->json(['message' => 'Project not found'], 404);
         }
 
-        $project->update($request->validated());
+        // Get validated data
+        $validated = $request->validated();
+        
+        // Extract technologies if present
+        $technologies = $validated['technologies'] ?? null;
+        unset($validated['technologies']); // Remove from array so it doesn't try to update on project
+        
+        // Update project fields
+        $project->update($validated);
+        
+        // Sync technologies if provided
+        if ($technologies !== null) {
+            $project->technologies()->sync($technologies);
+        }
+        
+        // Reload with technologies for response
+        $project->load('technologies');
+        
         return response()->json($project);
     }
 
