@@ -29,6 +29,8 @@ class UpdateProjectRequest extends FormRequest
             'image' => 'nullable|string|max:255',
             'github' => 'nullable|string|max:255',
             'show_in_portfolio' => 'sometimes|boolean',
+            'technologies' => 'sometimes|array',
+            'technologies.*' => 'exists:technologies,id',
         ];
     }
 }
