@@ -6,6 +6,6 @@ export interface TitleProps {
 
 export default function Title({ title }: TitleProps) {
     return (
-        <div className="text-red-600 font-semibold w-fit mx-auto p-5">{title}</div>
+        <div className="text-slate-600 font-semibold w-fit mx-auto p-5">{title}</div>
     )
 }

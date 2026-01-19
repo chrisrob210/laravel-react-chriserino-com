@@ -48,7 +48,7 @@ export default function Portfolio() {
 
     return (
         <div className="flex flex-row justify-center pt-3 min-h-screen bg-gradient-to-b from-slate-200 via-slate-300 to-slate-400  text-slate-800">
-            <div className="flex flex-col items-center gap-y-10">
+            <div className="flex flex-col items-center gap-y-10 mb-5">
                 {/* <h1 className="text-lg font-bold text-center mb-3">Portfolio</h1> */}
 
                 {/* Picture & Info */}

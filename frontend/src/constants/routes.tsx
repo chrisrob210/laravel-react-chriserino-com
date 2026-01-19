@@ -8,8 +8,13 @@ import Projects from '../components/pages/Projects';
 import BarcodePage from '../components/projects/barcode/BarcodePage';
 import TriviaBattleArena from '../components/projects/tba/TriviaBattleArena';
 import AdminProjectManagement from '../components/pages/admin/AdminProjectManagement';
+import AdminProjectEdit from '../components/pages/admin/AdminProjectEdit';
+import AdminProjectCreate from '../components/pages/admin/AdminProjectCreate';
 import AdminDashboard from '../components/pages/admin/AdminDashboard';
 import AdminPortfolioManagement from '../components/pages/admin/AdminPortfolioManagement';
+import AdminTechnologyManagement from '../components/pages/admin/AdminTechnologyManagement';
+import AdminTechnologyEdit from '../components/pages/admin/AdminTechnologyEdit';
+import AdminTechnologyCreate from '../components/pages/admin/AdminTechnologyCreate';
 
 export type AppRoute = {
     path: string;
@@ -90,6 +95,30 @@ export const routes: AppRoute[] = [
         showInNavbar: false
     },
     {
+        path: ROUTE_PATHS.ADMIN_PROJECT_EDIT + '/:id',
+        element: (
+            <ProtectedRoute requireAdmin={true} >
+                <AdminProjectEdit />
+            </ProtectedRoute>
+        ),
+        label: 'Edit Project',
+        protected: true,
+        showNavbar: true,
+        showInNavbar: false
+    },
+    {
+        path: ROUTE_PATHS.ADMIN_PROJECT_CREATE,
+        element: (
+            <ProtectedRoute requireAdmin={true} >
+                <AdminProjectCreate />
+            </ProtectedRoute>
+        ),
+        label: 'Create Project',
+        protected: true,
+        showNavbar: true,
+        showInNavbar: false
+    },
+    {
         path: ROUTE_PATHS.ADMIN_PORTFOLIO_MANAGEMENT,
         element: (
             <ProtectedRoute requireAdmin={true} >
@@ -97,6 +126,42 @@ export const routes: AppRoute[] = [
             </ProtectedRoute>
         ),
         label: 'Add Project',
+        protected: true,
+        showNavbar: true,
+        showInNavbar: false
+    },
+    {
+        path: ROUTE_PATHS.ADMIN_TECHNOLOGY_MANAGEMENT,
+        element: (
+            <ProtectedRoute requireAdmin={true} >
+                <AdminTechnologyManagement />
+            </ProtectedRoute>
+        ),
+        label: 'Add Project',
+        protected: true,
+        showNavbar: true,
+        showInNavbar: false
+    },
+    {
+        path: ROUTE_PATHS.ADMIN_TECHNOLOGY_EDIT + '/:id',
+        element: (
+            <ProtectedRoute requireAdmin={true} >
+                <AdminTechnologyEdit />
+            </ProtectedRoute>
+        ),
+        label: 'Edit Technology',
+        protected: true,
+        showNavbar: true,
+        showInNavbar: false
+    },
+    {
+        path: ROUTE_PATHS.ADMIN_TECHNOLOGY_CREATE,
+        element: (
+            <ProtectedRoute requireAdmin={true} >
+                <AdminTechnologyCreate />
+            </ProtectedRoute>
+        ),
+        label: 'Create Technology',
         protected: true,
         showNavbar: true,
         showInNavbar: false

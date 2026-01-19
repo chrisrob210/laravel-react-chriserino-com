@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateProjectRequest extends FormRequest
+class UpdateTechnologyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +23,9 @@ class UpdateProjectRequest extends FormRequest
     {
         return [
             'title' => 'sometimes|required|string|max:255',
-            'category' => 'sometimes|required|string|max:255',
-            'description' => 'nullable|string',
-            'uri' => 'nullable|string|max:255',
-            'image' => 'nullable|string|max:255',
-            'github' => 'nullable|string|max:255',
-            'show_in_portfolio' => 'sometimes|boolean',
-            'technologies' => 'sometimes|array',
-            'technologies.*' => 'exists:technologies,id',
+            'url' => 'nullable|string|max:255',
+            'category' => 'nullable|string|max:255',
+            'icon' => 'nullable|string|max:255',
         ];
     }
 }
