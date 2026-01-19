@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('url');
+            $table->string('category')->nullable(); // Front End, Back End, Framework, etc.
+            $table->string('icon')->nullable(); // Path to icon image
             $table->timestamps();
         });
     }
