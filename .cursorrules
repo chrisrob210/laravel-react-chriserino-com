@@ -1,0 +1,27 @@
+# Platform
+The development environment is Windows.
+
+# Shell constraints
+All terminal commands must be compatible with Windows PowerShell and cmd.exe.
+Do NOT use '&&', ';', or Unix-style command chaining.
+Do NOT assume bash, zsh, or sh.
+
+# Command execution rules
+When multiple commands are required:
+- Use separate commands on separate lines, OR
+- Use PowerShell syntax (e.g.:
+  if ($?) { <command> }
+)
+
+# Path rules
+- Use Windows paths (C:\, backslashes)
+- Avoid /usr, /bin, ~/.config, etc.
+
+# Tooling assumptions
+- Assume PowerShell is the primary shell
+- Avoid Linux-only utilities (sed, awk, grep, rm -rf, cp -r)
+- Prefer PowerShell equivalents (Remove-Item, Copy-Item, Get-ChildItem)
+
+# If a command differs between Windows and Unix:
+- Provide a Windows-specific command
+- Or explain the alternative instead of guessing
