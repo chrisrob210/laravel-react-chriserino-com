@@ -31,7 +31,7 @@ export default function Navbar() {
                                 key={route.path}
                                 to={route.path}
                                 className={`px-3 py-2 rounded ${location.pathname === route.path
-                                    ? 'bg-red-600 text-white'
+                                    ? 'bg-slate-500 text-white'
                                     : 'text-gray-700 hover:bg-gray-100'
                                     }`}
                             >

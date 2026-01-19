@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 
 class ProjectController extends Controller
 {
@@ -12,24 +14,16 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $projects = Project::with('technologies')->get();
         return response()->json($projects);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProjectRequest $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'uri' => 'nullable|string|max:255',
-            'image' => 'nullable|string|max:255',
-            'github' => 'nullable|string|max:255',
-        ]);
-
-        $project = Project::create($validated);
+        $project = Project::create($request->validated());
         return response()->json($project, 201);
     }
 
@@ -38,7 +32,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::find($id);
+        $project = Project::with('technologies')->find($id);
 
         if (!$project) {
             return response()->json(['message' => 'Project not found'], 404);
@@ -50,7 +44,7 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProjectRequest $request, $id)
     {
         $project = Project::find($id);
 
@@ -58,15 +52,7 @@ class ProjectController extends Controller
             return response()->json(['message' => 'Project not found'], 404);
         }
 
-        $validated = $request->validate([
-            'title' => 'sometimes|required|string|max:255',
-            'description' => 'nullable|string',
-            'uri' => 'nullable|string|max:255',
-            'image' => 'nullable|string|max:255',
-            'github' => 'nullable|string|max:255',
-        ]);
-
-        $project->update($validated);
+        $project->update($request->validated());
         return response()->json($project);
     }
 
@@ -83,5 +69,17 @@ class ProjectController extends Controller
 
         $project->delete();
         return response()->json(['message' => 'Project deleted successfully'], 200);
+    }
+
+    /**
+     * Get projects that should be displayed in the portfolio
+     */
+    public function portfolio()
+    {
+        $projects = Project::where('show_in_portfolio', true)
+            ->with('technologies')
+            ->get();
+
+        return response()->json($projects);
     }
 }

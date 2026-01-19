@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useUser } from '@clerk/clerk-react';
+import { useUser, useAuth } from '@clerk/clerk-react';
 import { useAdmin } from '../hooks/useAdmin';
 import AccessDenied from './common/AccessDenied';
+import { getSanctumToken } from '../lib/api';
 
 interface ProtectedRouteProps {
     children: React.ReactElement;
@@ -20,10 +21,28 @@ export default function ProtectedRoute({
     requireAdmin = false
 }: ProtectedRouteProps) {
     const { isSignedIn, isLoaded } = useUser();
+    const { getToken } = useAuth();
     const isAdmin = useAdmin();
+    const [tokenReady, setTokenReady] = useState(false);
+
+    // Ensure Sanctum token exists when user is signed in
+    useEffect(() => {
+        if (isSignedIn && isLoaded) {
+            const ensureToken = async () => {
+                const existingToken = localStorage.getItem('sanctum_token');
+                if (!existingToken) {
+                    await getSanctumToken(getToken);
+                }
+                setTokenReady(true);
+            };
+            ensureToken();
+        } else if (!isSignedIn && isLoaded) {
+            setTokenReady(true);
+        }
+    }, [isSignedIn, isLoaded, getToken]);
 
     // Wait for Clerk to load
-    if (!isLoaded) {
+    if (!isLoaded || (isSignedIn && !tokenReady)) {
         return (
             <div className="flex items-center justify-center min-h-screen">
                 <div className="text-lg">Loading...</div>
@@ -31,14 +50,8 @@ export default function ProtectedRoute({
         );
     }
 
-    // If not signed in, redirect to home
-    // if (!isSignedIn) {
-    //     return <Navigate to="/" replace />;
-    // }
-
-    // If admin is required but user is not admin, show access denied
-    // if (requireAdmin && !isAdmin) {
-    if (!isSignedIn || requireAdmin && !isAdmin) {
+    // If not signed in or admin required but not admin, show access denied
+    if (!isSignedIn || (requireAdmin && !isAdmin)) {
         return (
             <AccessDenied showBackButton={true} />
         );

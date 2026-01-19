@@ -1,11 +1,51 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import ExperienceCard from '../ExperienceCard'
 import RepoCard from '../common/RepoCard'
 import { Experience } from '../../lib/definitions'
-import { experience } from '../../constants/experience'
-import { repos } from '../../constants/repos'
+import { RepoProps } from '../../lib/definitions'
+import { usePublicApiData } from '../../hooks/usePublicApiData'
+
+interface ProjectFromApi {
+    id: number;
+    title: string;
+    category: string;
+    description: string;
+    uri: string;
+    image: string;
+    github: string;
+    show_in_portfolio: boolean;
+    technologies?: Array<{
+        id: number;
+        title: string;
+        url: string;
+    }>;
+}
+
 export default function Portfolio() {
     const avatar = '/images/me.jpg'
+
+    // Use the reusable hook for both endpoints
+    const { data: projectsData, loading: projectsLoading, error: projectsError } = usePublicApiData<ProjectFromApi[]>('/projects/portfolio');
+    const { data: experienceData, loading: experienceLoading, error: experienceError } = usePublicApiData<Experience[]>('/technologies/by-category');
+
+    // Transform API projects to match RepoCard format
+    const transformedProjects = useMemo<RepoProps[]>(() => {
+        if (!projectsData) return [];
+
+        return projectsData.map((project: ProjectFromApi) => ({
+            title: project.title,
+            category: project.category || '',
+            technologies: (project.technologies || []).map((tech: { id: number; title: string; url: string }) => ({
+                title: tech.title,
+                href: tech.url
+            })),
+            description: project.description || '',
+            href: project.uri || '',
+            image: project.image || '',
+            github: project.github || ''
+        }));
+    }, [projectsData]);
+
     return (
         <div className="flex flex-row justify-center pt-3 min-h-screen bg-gradient-to-b from-slate-200 via-slate-300 to-slate-400  text-slate-800">
             <div className="flex flex-col items-center gap-y-10">
@@ -13,7 +53,6 @@ export default function Portfolio() {
 
                 {/* Picture & Info */}
                 <div className='flex flex-col gap-4'>
-                    {/* TODO: Replace <Image> with correct way in vanilla React*/}
                     <img
                         src={avatar}
                         alt="avatar"
@@ -40,39 +79,46 @@ export default function Portfolio() {
                 {/* Experience */}
                 <div className="w-full sm:w-3/4">
                     <div className='text-center text-xl font-bold mb-2'>Experience</div>
-                    <div className={`grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-4`}>
-                        {experience.map((exp: Experience, expIndex: number) => (
-                            <ExperienceCard key={`experience-card-${expIndex}`} experience={exp} />
-                        ))}
-                    </div>
+                    {experienceLoading && (
+                        <div className="text-center">Loading experience...</div>
+                    )}
+                    {experienceError && (
+                        <div className="text-center text-red-500">
+                            Error loading experience: {experienceError.message}
+                        </div>
+                    )}
+                    {!experienceLoading && !experienceError && experienceData && experienceData.length > 0 && (
+                        <div className={`grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-4`}>
+                            {experienceData.map((exp: Experience, expIndex: number) => (
+                                <ExperienceCard key={`experience-card-${expIndex}`} experience={exp} />
+                            ))}
+                        </div>
+                    )}
+                    {!experienceLoading && !experienceError && (!experienceData || experienceData.length === 0) && (
+                        <div className="text-center">No experience data found.</div>
+                    )}
                 </div>
 
 
                 {/* Git Repos */}
-                <div className="grid grid-cols-1  sm:w-3/4 md:grid-cols-2 gap-4 mx-auto items-stretch">
-                    {repos.map((repo: any, repoIndex: number) => (
-                        // <div key={`repo-${repoIndex}`} className="flex flex-col justify-between gap-3 w-auto px-6 py-4 bg-gray-300 border-[1px] rounded-lg border-slate-100 shadow-md shadow-gray-500">
-                        //     <div className="text-lg font-bold text-center">{repo.title}</div>
-                        //     <div className="flex flex-row justify-center text-center text-sm font-semibold">
-                        //         <ul className="flex flex-row gap-3 px-2 py-1 justify-center">
-                        //             <li key={`repo-tech-${repoIndex}`}>Tech:</li>
-                        //             {repo?.technologies?.map((tech: any, techIndex: number) => (
-                        //                 <li key={`repo-tech-${repoIndex}-${techIndex}`}>
-                        //                     <Link key={`tech-link-${repoIndex}-${techIndex}`} href={tech.href} target='_blank' rel="noopener noreferrer" className="text-black bg-gray-100 px-2 py-1 rounded-md hover:text-indigo-500 hover:bg-white">{tech.title}</Link>
-                        //                 </li>
-                        //             ))}
-                        //         </ul>
-                        //     </div>
-                        //     <div className='flex flex-row justify-center'><Image src={repo.image} alt="" width={256} height={128} className='rounded-lg' style={{ width: "768px", height: '128px' }} /></div>
-                        //     <div className="">{repo.description}</div>
-                        //     <div className="flex flex-row justify-between">
-                        //         <Link href={repo.href} className='w-1/3 border-0 rounded-md p-1 text-center text-slate-100 bg-slate-500 hover:bg-slate-400'>View</Link>
-                        //         <Link href={repo.github} className='w-1/3 border-0 rounded-md p-1 text-center text-slate-100 bg-slate-500 hover:bg-slate-400'>Github Repo</Link>
-                        //     </div>
-                        // </div>
-                        <RepoCard key={`repo-card-${repoIndex}`} repo={repo} repoIndex={repoIndex} />
-                    ))}
-                </div>
+                {projectsLoading && (
+                    <div className="text-center">Loading projects...</div>
+                )}
+                {projectsError && (
+                    <div className="text-center text-red-500">
+                        Error loading projects: {projectsError.message}
+                    </div>
+                )}
+                {!projectsLoading && !projectsError && transformedProjects.length === 0 && (
+                    <div className="text-center">No projects found.</div>
+                )}
+                {!projectsLoading && !projectsError && transformedProjects.length > 0 && (
+                    <div className="grid grid-cols-1  sm:w-3/4 md:grid-cols-2 gap-4 mx-auto items-stretch">
+                        {transformedProjects.map((project: RepoProps, repoIndex: number) => (
+                            <RepoCard key={`repo-card-${repoIndex}`} repo={project} repoIndex={repoIndex} />
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     )
