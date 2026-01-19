@@ -8,6 +8,7 @@ import Projects from '../components/pages/Projects';
 import BarcodePage from '../components/projects/barcode/BarcodePage';
 import TriviaBattleArena from '../components/projects/tba/TriviaBattleArena';
 import AdminProjectManagement from '../components/pages/admin/AdminProjectManagement';
+import AdminProjectEdit from '../components/pages/admin/AdminProjectEdit';
 import AdminDashboard from '../components/pages/admin/AdminDashboard';
 import AdminPortfolioManagement from '../components/pages/admin/AdminPortfolioManagement';
 
@@ -85,6 +86,18 @@ export const routes: AppRoute[] = [
             </ProtectedRoute>
         ),
         label: 'Add Project',
+        protected: true,
+        showNavbar: true,
+        showInNavbar: false
+    },
+    {
+        path: ROUTE_PATHS.ADMIN_PROJECT_EDIT + '/:id',
+        element: (
+            <ProtectedRoute requireAdmin={true} >
+                <AdminProjectEdit />
+            </ProtectedRoute>
+        ),
+        label: 'Edit Project',
         protected: true,
         showNavbar: true,
         showInNavbar: false
