@@ -29,6 +29,8 @@ class StoreProjectRequest extends FormRequest
             'image' => 'nullable|string|max:255',
             'github' => 'nullable|string|max:255',
             'show_in_portfolio' => 'nullable|boolean',
+            'technologies' => 'nullable|array',
+            'technologies.*' => 'exists:technologies,id',
         ];
     }
 }
