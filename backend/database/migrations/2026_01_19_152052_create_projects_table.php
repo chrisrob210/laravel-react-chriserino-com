@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('category');
             $table->mediumText('description');
-            $table->string('uri');
+            $table->string('uri')->nullable();
             $table->string('image');
             $table->longText('github');
             $table->boolean('show_in_portfolio')->default(true);
