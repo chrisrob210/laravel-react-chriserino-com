@@ -1,10 +1,12 @@
 import { useMemo } from "react"
+import { useNavigate } from "react-router-dom"
 import Card from "../../common/Card"
 import FlexColContainer from "../../common/FlexColContainer"
 import Title from "../../common/Title"
-import RepoCard from "../../common/RepoCard"
+import RepoManagementCard from "../../common/RepoManagementCard"
 import { useApiData } from "../../../hooks/useApiData"
 import { RepoProps } from "../../../lib/definitions"
+import { ROUTE_PATHS } from "../../../constants/routePaths"
 
 interface ProjectFromApi {
     id: number;
@@ -22,6 +24,7 @@ interface ProjectFromApi {
 }
 
 export default function AdminProjectManagement() {
+    const navigate = useNavigate();
     const { data: projectsData, loading, error } = useApiData<ProjectFromApi[]>('/projects');
 
     // Transform API projects to match RepoCard format
@@ -42,6 +45,22 @@ export default function AdminProjectManagement() {
         }));
     }, [projectsData]);
 
+    const handleEdit = (id: number) => {
+        navigate(`${ROUTE_PATHS.ADMIN_PROJECT_EDIT}/${id}`);
+    };
+
+    const handleDelete = async (id: number) => {
+        if (window.confirm('Are you sure you want to delete this project?')) {
+            try {
+                // TODO: Implement delete API call
+                console.log('Delete project:', id);
+                // Example: await apiRequest(`/projects/${id}`, { method: 'DELETE' });
+            } catch (error) {
+                console.error('Error deleting project:', error);
+            }
+        }
+    };
+
     return (
         <FlexColContainer>
             <Title title="Project Management" />
@@ -57,9 +76,21 @@ export default function AdminProjectManagement() {
                 )}
                 {!loading && !error && transformedProjects.length > 0 && (
                     <div className="grid grid-cols-1 sm:w-3/4 md:grid-cols-2 gap-4 mx-auto items-stretch">
-                        {transformedProjects.map((project: RepoProps, repoIndex: number) => (
-                            <RepoCard key={`project-card-${repoIndex}`} repo={project} repoIndex={repoIndex} />
-                        ))}
+                        {projectsData?.map((project: ProjectFromApi, repoIndex: number) => {
+                            const transformedProject = transformedProjects.find(p => p.title === project.title);
+                            if (!transformedProject) return null;
+
+                            return (
+                                <RepoManagementCard
+                                    key={`project-card-${project.id}`}
+                                    repo={transformedProject}
+                                    repoIndex={repoIndex}
+                                    projectId={project.id}
+                                    onEdit={handleEdit}
+                                    onDelete={handleDelete}
+                                />
+                            );
+                        })}
                     </div>
                 )}
             </Card>
