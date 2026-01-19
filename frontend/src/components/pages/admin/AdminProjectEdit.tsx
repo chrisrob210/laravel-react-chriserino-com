@@ -5,9 +5,16 @@ import FlexColContainer from "../../common/FlexColContainer";
 import Title from "../../common/Title";
 import TextInput from "../../common/TextInput";
 import Textarea from "../../common/Textarea";
+import TechnologyTagInput from "../../common/TechnologyTagInput";
 import { useApiData } from "../../../hooks/useApiData";
 import { apiRequest } from "../../../lib/api";
 import { useAuth } from "@clerk/clerk-react";
+
+interface Technology {
+    id: number;
+    title: string;
+    url: string;
+}
 
 interface ProjectFromApi {
     id: number;
@@ -18,11 +25,7 @@ interface ProjectFromApi {
     image: string;
     github: string;
     show_in_portfolio: boolean;
-    technologies?: Array<{
-        id: number;
-        title: string;
-        url: string;
-    }>;
+    technologies?: Technology[];
 }
 
 export default function AdminProjectEdit() {
@@ -47,6 +50,9 @@ export default function AdminProjectEdit() {
         show_in_portfolio: false
     });
 
+    // Technologies state (separate since backend doesn't handle it yet)
+    const [selectedTechnologies, setSelectedTechnologies] = useState<Technology[]>([]);
+
     // Populate form when project data loads
     useEffect(() => {
         if (projectData) {
@@ -59,6 +65,8 @@ export default function AdminProjectEdit() {
                 github: projectData.github || '',
                 show_in_portfolio: projectData.show_in_portfolio || false
             });
+            // Set technologies from project data (these have real IDs from the database)
+            setSelectedTechnologies(projectData.technologies || []);
         }
     }, [projectData]);
 
@@ -76,6 +84,12 @@ export default function AdminProjectEdit() {
         setSaveError(null);
 
         try {
+            // Include technologies in the request (backend won't process it yet, but we're ready)
+            const requestData = {
+                ...formData,
+                technologies: selectedTechnologies.map(tech => tech.id)
+            };
+
             const response = await apiRequest(
                 `/projects/${id}`,
                 {
@@ -83,7 +97,7 @@ export default function AdminProjectEdit() {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify(requestData)
                 },
                 getToken
             );
@@ -172,6 +186,13 @@ export default function AdminProjectEdit() {
                         fullWidth
                     />
 
+                    <TechnologyTagInput
+                        label="Technologies"
+                        selectedTechnologies={selectedTechnologies}
+                        onChange={setSelectedTechnologies}
+                        helperText="Add technologies used in this project"
+                    />
+
                     <TextInput
                         label="Project URI"
                         name="uri"
@@ -185,10 +206,10 @@ export default function AdminProjectEdit() {
                     <TextInput
                         label="Image URL"
                         name="image"
-                        type="url"
+                        type="text"
                         value={formData.image}
                         onChange={handleChange}
-                        placeholder="https://example.com/image.png"
+                        placeholder="/images/project.png or https://example.com/image.png"
                         fullWidth
                     />
 
