@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../../common/Card";
 import FlexColContainer from "../../common/FlexColContainer";
 import Title from "../../common/Title";
@@ -7,7 +7,6 @@ import TextInput from "../../common/TextInput";
 import Textarea from "../../common/Textarea";
 import TechnologyTagInput from "../../common/TechnologyTagInput";
 import ImageUpload from "../../common/ImageUpload";
-import { useApiData } from "../../../hooks/useApiData";
 import { apiRequest } from "../../../lib/api";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -17,28 +16,11 @@ interface Technology {
     url: string;
 }
 
-interface ProjectFromApi {
-    id: number;
-    title: string;
-    category: string;
-    description: string;
-    uri: string;
-    image: string;
-    github: string;
-    show_in_portfolio: boolean;
-    technologies?: Technology[];
-}
-
-export default function AdminProjectEdit() {
-    const { id } = useParams<{ id: string }>();
+export default function AdminProjectCreate() {
     const navigate = useNavigate();
     const { getToken } = useAuth();
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
     const [saveError, setSaveError] = useState<string | null>(null);
-
-    // Fetch project data
-    const { data: projectData, loading: fetchLoading, error: fetchError } = useApiData<ProjectFromApi>(`/projects/${id}`);
 
     // Form state
     const [formData, setFormData] = useState({
@@ -51,25 +33,8 @@ export default function AdminProjectEdit() {
         show_in_portfolio: false
     });
 
-    // Technologies state (separate since backend doesn't handle it yet)
+    // Technologies state
     const [selectedTechnologies, setSelectedTechnologies] = useState<Technology[]>([]);
-
-    // Populate form when project data loads
-    useEffect(() => {
-        if (projectData) {
-            setFormData({
-                title: projectData.title || '',
-                category: projectData.category || '',
-                description: projectData.description || '',
-                uri: projectData.uri || '',
-                image: projectData.image || '',
-                github: projectData.github || '',
-                show_in_portfolio: projectData.show_in_portfolio || false
-            });
-            // Set technologies from project data (these have real IDs from the database)
-            setSelectedTechnologies(projectData.technologies || []);
-        }
-    }, [projectData]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
@@ -85,16 +50,16 @@ export default function AdminProjectEdit() {
         setSaveError(null);
 
         try {
-            // Include technologies in the request (backend won't process it yet, but we're ready)
+            // Include technologies in the request
             const requestData = {
                 ...formData,
                 technologies: selectedTechnologies.map(tech => tech.id)
             };
 
             const response = await apiRequest(
-                `/projects/${id}`,
+                '/projects',
                 {
-                    method: 'PUT',
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -104,7 +69,7 @@ export default function AdminProjectEdit() {
             );
 
             if (!response.ok) {
-                const errorData = await response.json().catch(() => ({ message: 'Failed to update project' }));
+                const errorData = await response.json().catch(() => ({ message: 'Failed to create project' }));
                 throw new Error(errorData.message || `Error: ${response.status}`);
             }
 
@@ -113,45 +78,15 @@ export default function AdminProjectEdit() {
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'An error occurred while saving';
             setSaveError(errorMessage);
-            console.error('Error updating project:', err);
+            console.error('Error creating project:', err);
         } finally {
             setLoading(false);
         }
     };
 
-    if (fetchLoading) {
-        return (
-            <FlexColContainer>
-                <Title title="Edit Project" />
-                <Card>
-                    <div>Loading project...</div>
-                </Card>
-            </FlexColContainer>
-        );
-    }
-
-    if (fetchError || !projectData) {
-        return (
-            <FlexColContainer>
-                <Title title="Edit Project" />
-                <Card>
-                    <div className="text-red-500">
-                        {fetchError?.message || 'Project not found'}
-                    </div>
-                    <button
-                        onClick={() => navigate('/admin/project-management')}
-                        className="mt-4 px-4 py-2 bg-slate-500 text-white rounded-lg hover:bg-slate-400"
-                    >
-                        Back to Project Management
-                    </button>
-                </Card>
-            </FlexColContainer>
-        );
-    }
-
     return (
         <FlexColContainer>
-            <Title title="Edit Project" />
+            <Title title="Create Project" />
             <Card>
                 <form onSubmit={handleSubmit} className="space-y-4 max-w-2xl mx-auto">
                     {saveError && (
@@ -242,7 +177,7 @@ export default function AdminProjectEdit() {
                             disabled={loading}
                             className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {loading ? 'Saving...' : 'Save Changes'}
+                            {loading ? 'Creating...' : 'Create Project'}
                         </button>
                         <button
                             type="button"

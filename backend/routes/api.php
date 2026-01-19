@@ -17,7 +17,14 @@ Route::get('/technologies/by-category', [TechnologyController::class, 'byCategor
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/projects', [ProjectController::class, 'index']);
     Route::post('/projects', [ProjectController::class, 'store']);
+    Route::post('/projects/upload-image', [ProjectController::class, 'uploadImage']);
     Route::get('/projects/{id}', [ProjectController::class, 'show']);
     Route::put('/projects/{id}', [ProjectController::class, 'update']);
     Route::delete('/projects/{id}', [ProjectController::class, 'destroy']);
+
+    // Technology routes with authentication
+    Route::post('/technologies', [TechnologyController::class, 'store']);
+    Route::get('/technologies/{id}', [TechnologyController::class, 'show']);
+    Route::put('/technologies/{id}', [TechnologyController::class, 'update']);
+    Route::delete('/technologies/{id}', [TechnologyController::class, 'destroy']);
 });
