@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 class TechnologyController extends Controller
 {
     /**
+     * Get all technologies with their IDs
+     */
+    public function index()
+    {
+        $technologies = Technology::all();
+        return response()->json($technologies);
+    }
+
+    /**
      * Get technologies grouped by category (for experience section)
      */
     public function byCategory()

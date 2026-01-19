@@ -10,6 +10,7 @@ Route::post('/auth/clerk-login', [AuthController::class, 'clerkLogin']);
 
 // Public endpoints (no auth required)
 Route::get('/projects/portfolio', [ProjectController::class, 'portfolio']);
+Route::get('/technologies', [TechnologyController::class, 'index']);
 Route::get('/technologies/by-category', [TechnologyController::class, 'byCategory']);
 
 // Project routes with authentication
