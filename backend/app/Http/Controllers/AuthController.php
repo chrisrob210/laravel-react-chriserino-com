@@ -27,7 +27,7 @@ class AuthController extends Controller
 
         $clerkToken = $request->input('clerk_token');
 
-        // Verify Clerk token
+        // Verify Clerk token using JWKS
         $clerkUser = $this->clerkService->verifyToken($clerkToken);
 
         if (!$clerkUser) {
